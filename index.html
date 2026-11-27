@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RINHIKI // CYBERPUNK COSPLAY ARCHIVE</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:ital,wght@0,400;0,600;0,700;1,700&family=JetBrains+Mono:wght@400;500;700&family=Orbitron:wght@700;900&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Orbitron', 'sans-serif'],
+            sans: ['Chakra Petch', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            void: '#05060a',
+            panel: '#0b0e17',
+            panelLight: '#111625',
+            cyberCyan: '#00f0ff',
+            cyberPink: '#ff0055',
+            cyberYellow: '#fcee0a',
+            cyberGreen: '#00ff9f',
+            cyberPurple: '#b829ea',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    :root {
+      --neon-primary: #00f0ff;
+      --neon-secondary: #ff0055;
+      --neon-accent: #fcee0a;
+      --bg-void: #05060a;
+      --bg-panel: #0b0e17;
+    }
+
+    body.overdrive {
+      --neon-primary: #00ff9f;
+      --neon-secondary: #fcee0a;
+      --neon-accent: #ff0055;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: var(--bg-void);
+      color: #e2e8f0;
+      font-family: 'Chakra Petch', sans-serif;
+      overflow-x: hidden;
+      background-image:
+        radial-gradient(circle at 12% 18%, rgba(0, 240, 255, 0.08), transparent 36%),
+        radial-gradient(circle at 88% 72%, rgba(255, 0, 85, 0.08), transparent 36%),
+        linear-gradient(rgba(0, 240, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 240, 255, 0.03) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 42px 42px, 42px 42px;
+    }
+
+    /* CRT Scanlines Overlay */
+    .scanlines {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 60;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%,
+        rgba(0, 0, 0, 0.22) 50%
+      );
+      background-size: 100% 4px;
+      opacity: 0.45;
+    }
+
+    /* Cyberpunk Cut Corners */
+    .cyber-clip {
+      clip-path: polygon(
+        0 14px,
+        14px 0,
+        100% 0,
+        100% calc(100% - 14px),
+        calc(100% - 14px) 100%,
+        0 100%
+      );
+    }
+
+    .cyber-clip-sm {
+      clip-path: polygon(
+        0 8px,
+        8px 0,
+        100% 0,
+        100% calc(100% - 8px),
+        calc(100% - 8px) 100%,
+        0 100%
+      );
+    }
+
+    /* Glitch Headline Effect */
+    .glitch {
+      position: relative;
+      text-shadow: 0 0 18px rgba(0, 240, 255, 0.45);
+    }
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.78;
+    }
+    .glitch::before {
+      color: var(--neon-primary);
+      z-index: -1;
+      animation: glitch-anim-1 3.4s infinite linear alternate-reverse;
+    }
+    .glitch::after {
+      color: var(--neon-secondary);
+      z-index: -2;
+      animation: glitch-anim-2 2.7s infinite linear alternate-reverse;
+    }
+
+    @keyframes glitch-anim-1 {
+      0%, 88%, 100% { transform: translate(0); }
+      90% { transform: translate(-3px, 1px); }
+      93% { transform: translate(2px, -2px); }
+      96% { transform: translate(-2px, 0); }
+    }
+
+    @keyframes glitch-anim-2 {
+      0%, 86%, 100% { transform: translate(0); }
+      89% { transform: translate(3px, -1px); }
+      92% { transform: translate(-2px, 2px); }
+      95% { transform: translate(2px, 1px); }
+    }
+
+    /* Scroll Reveal Fade-In */
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(34px) scale(0.985);
+      filter: blur(4px);
+      transition:
+        opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        transform 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: opacity, transform, filter;
+    }
+
+    .reveal-on-scroll.is-visible {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      filter: blur(0);
+    }
+
+    /* Collage Card Styling */
+    .collage-card {
+      position: relative;
+      background: #0b0e17;
+      border: 1px solid rgba(0, 240, 255, 0.22);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+
+    .collage-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--neon-primary);
+      box-shadow: 0 12px 32px -10px rgba(0, 240, 255, 0.35), 0 0 0 1px rgba(0, 240, 255, 0.2);
+    }
+
+    .collage-card img {
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+    }
+
+    .collage-card:hover img {
+      transform: scale(1.05);
+      filter: contrast(1.06) saturate(1.1);
+    }
+
+    .neon-text-primary { color: var(--neon-primary); }
+    .neon-text-secondary { color: var(--neon-secondary); }
+    .neon-border-primary { border-color: var(--neon-primary); }
+    .neon-bg-primary { background-color: var(--neon-primary); }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #05060a; }
+    ::-webkit-scrollbar-thumb { background: #1e293b; border: 1px solid #00f0ff44; }
+    ::-webkit-scrollbar-thumb:hover { background: #00f0ff; }
+  </style>
+</head>
+<body class="selection:bg-cyan-400 selection:text-black">
+  <div class="scanlines"></div>
+
+  <!-- Minimal Cyberpunk Top Header (No Tabs) -->
+  <header class="sticky top-0 z-40 backdrop-blur-md bg-[#05060a]/85 border-b border-cyan-500/20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 cyber-clip-sm bg-cyan-400/15 border border-cyan-400 flex items-center justify-center font-display font-black text-sm neon-text-primary">
+          RH
+        </div>
+        <div>
+          <span class="font-display font-bold tracking-wider text-white text-base sm:text-lg">RINHIKI</span>
+          <span class="hidden sm:inline-block ml-2 font-mono text-[11px] text-cyan-400/80 tracking-widest">// COSPLAY_ARCHIVE</span>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <span id="utcClock" class="hidden md:inline-block font-mono text-xs text-slate-400 tracking-widest">
+          SYS.TIME // --:--:-- UTC
+        </span>
+        <button
+          id="overdriveBtn"
+          type="button"
+          class="cyber-clip-sm px-3.5 py-1.5 font-mono text-xs font-bold tracking-wider uppercase border border-cyan-400/60 bg-cyan-400/10 text-cyan-300 hover:bg-cyan-400 hover:text-black transition-all cursor-pointer"
+        >
+          NEON OVERDRIVE
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-24">
+    <!-- Hero Banner -->
+    <section class="reveal-on-scroll mb-12 sm:mb-16">
+      <div class="inline-flex items-center gap-2 px-3 py-1 mb-4 border border-pink-500/40 bg-pink-500/10 font-mono text-xs tracking-widest text-pink-400">
+        <span class="w-2 h-2 rounded-full bg-pink-500 animate-ping"></span>
+        VISUAL ARCHIVE // SECTOR 09
+      </div>
+
+      <h1
+        class="glitch font-display font-black text-4xl sm:text-6xl lg:text-7xl tracking-tight text-white uppercase leading-[1.05]"
+        data-text="RINHIKI"
+      >
+        RINHIKI
+      </h1>
+    </section>
+
+    <!-- Asymmetric Collage Gallery -->
+    <section aria-label="Cosplay Collage Gallery">
+      <div class="reveal-on-scroll flex items-center justify-between mb-6 border-b border-slate-800/90 pb-3">
+        <div class="flex items-center gap-2.5">
+          <span class="w-2.5 h-2.5 bg-cyan-400 inline-block"></span>
+          <h2 class="font-display font-bold text-sm sm:text-base tracking-[0.2em] text-slate-200 uppercase">
+            COLLAGE ARCHIVE <span id="fileCountBadge" class="text-cyan-400 font-mono text-xs ml-1">[SCANNING...]</span>
+          </h2>
+        </div>
+        <span class="font-mono text-[11px] text-slate-500 tracking-widest uppercase">
+          CLICK ANY FRAME TO EXPAND
+        </span>
+      </div>
+
+      <!-- Collage Grid Container -->
+      <div
+        id="collageGrid"
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-5 sm:gap-6 auto-rows-auto"
+      ></div>
+
+      <!-- Fallback Help Note (Shown ONLY if 0 images could be loaded from cos-pics) -->
+      <div id="emptyFolderNotice" class="hidden mt-8 cyber-clip bg-[#0b0e17] border border-pink-500/40 p-6 font-mono text-xs text-slate-300 space-y-3">
+        <div class="text-pink-400 font-bold tracking-widest uppercase">
+          [!] NO IMAGE FILES AUTO-DETECTED IN \cos-pics
+        </div>
+        <p class="text-slate-400 leading-relaxed">
+          Browsers restrict direct folder scanning when opening <span class="text-cyan-300">index.html</span> offline (<span class="text-slate-200">file:///</span>). Run this one-line command inside <span class="text-cyan-300">D:\github\cosplay-folio</span> to index every image in <span class="text-cyan-300">\cos-pics</span> automatically:
+        </p>
+        <pre class="bg-black/70 border border-slate-800 p-3 overflow-x-auto text-cyan-300 select-all">powershell -Command "'window.COS_PICS = ' + ((Get-ChildItem cos-pics -File | Where-Object { $_.Extension -match '\.(jpg|jpeg|png|webp|gif|avif)$' } | Select-Object -ExpandProperty Name) | ConvertTo-Json -Compress) + ';'" | Out-File -Encoding utf8 cos-pics\manifest.js</pre>
+        <p class="text-slate-500">
+          Then refresh this page—all photos in <span class="text-slate-300">\cos-pics</span> will appear automatically with their file names as titles.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- Minimal Footer -->
+  <footer class="border-t border-cyan-500/20 bg-[#05060a]/90 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-mono text-xs text-slate-500">
+      <div>
+        <span class="text-cyan-400 font-bold">RINHIKI</span> // COSPLAY_PORTFOLIO
+      </div>
+      <div class="tracking-widest">
+        RINHIKI@NIGHTCITY.IO
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Popup Modal -->
+  <div
+    id="lightboxModal"
+    class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-md p-3 sm:p-6 opacity-0 transition-opacity duration-300"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="modalTitle"
+  >
+    <div
+      id="lightboxDialog"
+      class="relative w-full max-w-5xl cyber-clip bg-[#0b0e17] border border-cyan-400/50 shadow-[0_0_50px_rgba(0,240,255,0.2)] overflow-hidden transform scale-95 transition-transform duration-300"
+    >
+      <!-- Top HUD Bar -->
+      <div class="flex items-center justify-between px-4 sm:px-6 py-3 bg-[#070910] border-b border-cyan-500/25">
+        <div class="flex items-center gap-3 font-mono text-xs">
+          <span id="modalIndex" class="px-2 py-0.5 bg-cyan-400/15 border border-cyan-400/40 text-cyan-300">
+            01 / 09
+          </span>
+          <span id="modalFileName" class="text-slate-400 truncate max-w-[200px] sm:max-w-md">
+            cos-pics/file.jpg
+          </span>
+        </div>
+
+        <button
+          id="closeModalBtn"
+          type="button"
+          class="font-mono text-xs px-3 py-1 border border-pink-500/50 bg-pink-500/10 text-pink-400 hover:bg-pink-500 hover:text-white transition-colors cursor-pointer"
+        >
+          [ESC] CLOSE
+        </button>
+      </div>
+
+      <!-- Image Viewport -->
+      <div class="relative bg-[#040508] flex items-center justify-center max-h-[75vh] min-h-[300px] overflow-hidden">
+        <img
+          id="modalImage"
+          src=""
+          alt=""
+          class="max-h-[75vh] w-auto max-w-full object-contain select-none"
+        />
+
+        <!-- Prev / Next Controls -->
+        <button
+          id="prevBtn"
+          type="button"
+          aria-label="Previous image"
+          class="absolute left-3 sm:left-5 top-1/2 -translate-y-1/2 cyber-clip-sm px-3 py-2.5 bg-black/75 border border-cyan-400/50 text-cyan-300 hover:bg-cyan-400 hover:text-black font-mono text-xs font-bold transition-all cursor-pointer"
+        >
+          &lt; PREV
+        </button>
+        <button
+          id="nextBtn"
+          type="button"
+          aria-label="Next image"
+          class="absolute right-3 sm:right-5 top-1/2 -translate-y-1/2 cyber-clip-sm px-3 py-2.5 bg-black/75 border border-cyan-400/50 text-cyan-300 hover:bg-cyan-400 hover:text-black font-mono text-xs font-bold transition-all cursor-pointer"
+        >
+          NEXT &gt;
+        </button>
+      </div>
+
+      <!-- Bottom Title Bar -->
+      <div class="px-5 sm:px-7 py-4 bg-[#0b0e17] border-t border-cyan-500/25 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div>
+          <h3 id="modalTitle" class="font-display font-bold text-lg sm:text-xl text-white tracking-wide">
+            IMAGE TITLE
+          </h3>
+          <p id="modalRawPath" class="font-mono text-xs text-cyan-400/80 mt-0.5">
+            D:\github\cosplay-folio\cos-pics\
+          </p>
+        </div>
+        <div class="font-mono text-[11px] text-slate-500 tracking-widest uppercase">
+          RINHIKI // ARCHIVE_VIEWER
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Optional Local Manifest (Generated via PowerShell snippet for offline file:/// viewing) -->
+  <script src="cos-pics/manifest.js"></script>
+
+  <script>
+    const FOLDER_PATH = 'cos-pics/';
+    const IMAGE_EXTENSIONS = ['jpg', 'jpeg', 'png', 'webp', 'gif', 'avif'];
+
+    // Asymmetric 12-column collage layout patterns that repeat cleanly for any number of images
+    const COLLAGE_LAYOUTS = [
+      { span: 'sm:col-span-2 lg:col-span-7', aspect: 'aspect-[16/10]' },
+      { span: 'sm:col-span-1 lg:col-span-5', aspect: 'aspect-[4/5]' },
+      { span: 'sm:col-span-1 lg:col-span-4', aspect: 'aspect-[4/5]' },
+      { span: 'sm:col-span-2 lg:col-span-8', aspect: 'aspect-[16/9]' },
+      { span: 'sm:col-span-1 lg:col-span-4', aspect: 'aspect-square' },
+      { span: 'sm:col-span-1 lg:col-span-4', aspect: 'aspect-square' },
+      { span: 'sm:col-span-2 lg:col-span-4', aspect: 'aspect-square' }
+    ];
+
+    let galleryItems = [];
+    let currentModalIndex = 0;
+
+    // Convert filename (e.g. "cyber_lucy-01.jpg") into clean display title ("cyber_lucy-01")
+    function titleFromFileName(fileName) {
+      const decoded = decodeURIComponent(fileName);
+      const baseName = decoded.split('/').pop().split('\\').pop();
+      return baseName.replace(/\.[^/.]+$/, '');
+    }
+
+    // Check if an image URL loads properly in the browser
+    function probeImage(url) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => resolve(url);
+        img.onerror = () => resolve(null);
+        img.src = url;
+      });
+    }
+
+    // Strategy 1: Read from cos-pics/manifest.js if present
+    async function loadFromManifest() {
+      if (Array.isArray(window.COS_PICS) && window.COS_PICS.length > 0) {
+        return window.COS_PICS
+          .filter((name) => typeof name === 'string' && /\.(jpg|jpeg|png|webp|gif|avif)$/i.test(name))
+          .map((name) => ({
+            fileName: name,
+            src: `${FOLDER_PATH}${name}`,
+            title: titleFromFileName(name)
+          }));
+      }
+      return [];
+    }
+
+    // Strategy 2: Parse local dev server directory listing (Live Server, Python http.server, npx serve, etc.)
+    async function loadFromDirectoryListing() {
+      if (window.location.protocol === 'file:') return [];
+      try {
+        const res = await fetch(FOLDER_PATH, { cache: 'no-store' });
+        if (!res.ok) return [];
+        const html = await res.text();
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const links = Array.from(doc.querySelectorAll('a[href]'));
+        const seen = new Set();
+        const found = [];
+
+        for (const a of links) {
+          const rawHref = a.getAttribute('href') || '';
+          const cleanHref = rawHref.split('?')[0].split('#')[0];
+          const fileName = decodeURIComponent(cleanHref.split('/').filter(Boolean).pop() || '');
+          if (!fileName || seen.has(fileName)) continue;
+          if (/\.(jpg|jpeg|png|webp|gif|avif)$/i.test(fileName)) {
+            seen.add(fileName);
+            found.push({
+              fileName,
+              src: `${FOLDER_PATH}${fileName}`,
+              title: titleFromFileName(fileName)
+            });
+          }
+        }
+        return found;
+      } catch {
+        return [];
+      }
+    }
+
+    // Strategy 3: Direct filename pattern probing (1..30, cos-1..30, img-1..30, pic-1..30, photo-1..30)
+    async function loadFromPatternProbes() {
+      const prefixes = ['', 'cos-', 'cos_', 'img-', 'img_', 'IMG_', 'pic-', 'pic_', 'photo-', 'photo_'];
+      const candidateUrls = [];
+
+      for (let i = 1; i <= 25; i++) {
+        for (const prefix of prefixes) {
+          for (const ext of ['jpg', 'png', 'webp', 'jpeg']) {
+            const fileName = `${prefix}${i}.${ext}`;
+            candidateUrls.push({
+              fileName,
+              src: `${FOLDER_PATH}${fileName}`,
+              title: titleFromFileName(fileName)
+            });
+          }
+        }
+      }
+
+      const found = [];
+      const batchSize = 30;
+      for (let i = 0; i < candidateUrls.length; i += batchSize) {
+        const batch = candidateUrls.slice(i, i + batchSize);
+        const results = await Promise.all(
+          batch.map(async (item) => ((await probeImage(item.src)) ? item : null))
+        );
+        for (const hit of results) {
+          if (hit) found.push(hit);
+        }
+        // Stop probing early if first batch had zero matches to keep startup instant
+        if (i === 0 && found.length === 0) break;
+      }
+      return found;
+    }
+
+    function renderCollage(items) {
+      const grid = document.getElementById('collageGrid');
+      const badge = document.getElementById('fileCountBadge');
+      const emptyNotice = document.getElementById('emptyFolderNotice');
+
+      grid.innerHTML = '';
+      badge.textContent = `[${String(items.length).padStart(2, '0')} FILES]`;
+
+      if (items.length === 0) {
+        emptyNotice.classList.remove('hidden');
+        return;
+      }
+
+      emptyNotice.classList.add('hidden');
+
+      items.forEach((item, idx) => {
+        const layout = COLLAGE_LAYOUTS[idx % COLLAGE_LAYOUTS.length];
+        const card = document.createElement('article');
+        card.className = `collage-card cyber-clip reveal-on-scroll flex flex-col overflow-hidden ${layout.span}`;
+        card.style.transitionDelay = `${(idx % 4) * 80}ms`;
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `Open ${item.title}`);
+
+        card.innerHTML = `
+          <div class="relative w-full ${layout.aspect} bg-[#06080f] overflow-hidden">
+            <img
+              src="${item.src}"
+              alt="${item.title}"
+              loading="lazy"
+              class="w-full h-full object-cover object-center"
+            />
+            <div class="absolute inset-0 bg-gradient-to-t from-[#0b0e17] via-transparent to-transparent opacity-65 pointer-events-none"></div>
+            <div class="absolute top-3 left-3 px-2 py-0.5 bg-black/75 border border-cyan-400/40 font-mono text-[10px] text-cyan-300 tracking-widest">
+              #${String(idx + 1).padStart(2, '0')}
+            </div>
+          </div>
+
+          <div class="p-4 sm:p-5 bg-[#0b0e17] border-t border-cyan-500/20 flex items-center justify-between gap-3">
+            <div class="min-w-0">
+              <h3 class="font-display font-bold text-sm sm:text-base text-white tracking-wide truncate group-hover:text-cyan-300">
+                ${item.title}
+              </h3>
+              <p class="font-mono text-[11px] text-slate-400 truncate mt-0.5">
+                ${item.fileName}
+              </p>
+            </div>
+            <span class="shrink-0 font-mono text-[11px] text-cyan-400 border border-cyan-400/30 px-2 py-0.5">
+              VIEW
+            </span>
+          </div>
+        `;
+
+        card.addEventListener('click', () => openLightbox(idx));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openLightbox(idx);
+          }
+        });
+
+        grid.appendChild(card);
+      });
+
+      setupScrollReveal();
+    }
+
+    // Scroll Fade-In Observer
+    function setupScrollReveal() {
+      const targets = document.querySelectorAll('.reveal-on-scroll');
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: '0px 0px -30px 0px' }
+      );
+
+      targets.forEach((el) => observer.observe(el));
+    }
+
+    // Lightbox Controls
+    const modal = document.getElementById('lightboxModal');
+    const modalDialog = document.getElementById('lightboxDialog');
+    const modalImage = document.getElementById('modalImage');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalFileName = document.getElementById('modalFileName');
+    const modalRawPath = document.getElementById('modalRawPath');
+    const modalIndex = document.getElementById('modalIndex');
+
+    function updateLightboxContent(index) {
+      if (!galleryItems.length) return;
+      currentModalIndex = (index + galleryItems.length) % galleryItems.length;
+      const item = galleryItems[currentModalIndex];
+
+      modalImage.src = item.src;
+      modalImage.alt = item.title;
+      modalTitle.textContent = item.title;
+      modalFileName.textContent = item.fileName;
+      modalRawPath.textContent = `D:\\github\\cosplay-folio\\cos-pics\\${item.fileName}`;
+      modalIndex.textContent = `${String(currentModalIndex + 1).padStart(2, '0')} / ${String(galleryItems.length).padStart(2, '0')}`;
+    }
+
+    function openLightbox(index) {
+      updateLightboxContent(index);
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+
+      requestAnimationFrame(() => {
+        modal.classList.remove('opacity-0');
+        modalDialog.classList.remove('scale-95');
+        modalDialog.classList.add('scale-100');
+      });
+    }
+
+    function closeLightbox() {
+      modal.classList.add('opacity-0');
+      modalDialog.classList.remove('scale-100');
+      modalDialog.classList.add('scale-95');
+      document.body.style.overflow = '';
+
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }, 260);
+    }
+
+    document.getElementById('closeModalBtn').addEventListener('click', closeLightbox);
+    document.getElementById('prevBtn').addEventListener('click', () => updateLightboxContent(currentModalIndex - 1));
+    document.getElementById('nextBtn').addEventListener('click', () => updateLightboxContent(currentModalIndex + 1));
+
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeLightbox();
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (modal.classList.contains('hidden')) return;
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') updateLightboxContent(currentModalIndex - 1);
+      if (e.key === 'ArrowRight') updateLightboxContent(currentModalIndex + 1);
+    });
+
+    // Neon Overdrive Palette Toggle
+    document.getElementById('overdriveBtn').addEventListener('click', () => {
+      document.body.classList.toggle('overdrive');
+    });
+
+    // Live UTC Clock
+    function updateClock() {
+      const now = new Date();
+      const utc = now.toISOString().split('T')[1].split('.')[0];
+      const clockEl = document.getElementById('utcClock');
+      if (clockEl) clockEl.textContent = `SYS.TIME // ${utc} UTC`;
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Initialize Gallery Automatically
+    async function initPortfolio() {
+      setupScrollReveal();
+
+      let items = await loadFromManifest();
+      if (items.length === 0) {
+        items = await loadFromDirectoryListing();
+      }
+      if (items.length === 0) {
+        items = await loadFromPatternProbes();
+      }
+
+      galleryItems = items;
+      renderCollage(galleryItems);
+    }
+
+    initPortfolio();
+  </script>
+</body>
+</html>
