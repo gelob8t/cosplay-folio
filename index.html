@@ -660,7 +660,7 @@
         items = await loadFromPatternProbes();
       }
 
-      galleryItems = items;
+      galleryItems = items.reverse();
       renderCollage(galleryItems);
     }
 
